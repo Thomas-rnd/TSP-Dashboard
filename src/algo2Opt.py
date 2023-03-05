@@ -157,6 +157,8 @@ def main(matrice_distance, chemin_initial, chemin_optimal=[]):
     if chemin_optimal != []:
         erreur = 100*(distance_chemin_sub_optimal -
                       distance_chemin_optimal)/distance_chemin_optimal
+    else:
+        erreur = None
 
     # Chemin final trouvé
     solution = chemin_explores[-1]
