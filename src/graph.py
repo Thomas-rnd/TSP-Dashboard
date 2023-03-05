@@ -55,7 +55,8 @@ def representation_itineraire_web(data):
     fig
         Graphique de visualisation plolty
     """
-    fig = px.line(data, x='x', y='y')
+    fig = px.line(data, x='x', y='y',
+                  title='Chemin parcouru par le marchand', markers=True)
     return fig
 
 
@@ -73,7 +74,8 @@ def representation_temps_calcul(data):
     fig
         Graphique de visualisation plolty
     """
-    fig = px.line(data, x='Nombre de villes', y='Temps de calcul (en s)')
+    fig = px.line(data, x='Nombre de villes',
+                  y='Temps de calcul (en s)', title='Représentation du temps de calcul en fonction du nombre de ville à explorer', markers=True)
     return fig
 
 
@@ -93,8 +95,9 @@ def affichage(df_resolution, data):
     fig
         Graphique de visualisation plolty
     """
-    df_meilleur_trajet = trajet_en_df(df_resolution.loc[0, 'Solution'], data)
-    # fig = representation_itineraire(df_meilleur_trajet)
+    df_meilleur_trajet = trajet_en_df(
+        df_resolution.loc[0, 'Solution'], data)
+    # representation_itineraire_back(df_meilleur_trajet)
     fig = representation_itineraire_web(df_meilleur_trajet)
 
     # print("=============================================")
