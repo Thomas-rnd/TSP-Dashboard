@@ -33,37 +33,42 @@ def test_global_2_opt():
         'Erreur (en %)': [],
         'Temps de calcul (en s)': []
     })
-    # Initialisation de la liste des solutions
-    fig_trajets = []
-    for i in ENSEMBLE_TEST:
-        # Initialisation du data frame avec TSPLIB
-        data = data_TSPLIB(f'data/{i}.txt')
-
-        # Initialisation de la matrice des distances relatives
-        mat_distance = matrice_distance(data)
-
-        # Initialisation du chemin optimal
-        chemin_optimal = tour_optimal(f'data/{i}_opt_tour.txt')
-
-        # On prend un chemin initial meilleur qu'un chemin aléatoire
-        # Attention cheminInitial est la liste des chemin exploré par l'algorithme
-        # plus_proche_voisin
-        cheminInitial, temps_calcul = src.plusProcheVoisin.plus_proche_voisin(
-            data, mat_distance)
-
-        # Lancement de l'algorithme 2-opt
-        df_res = src.algo2Opt.main(
-            mat_distance, cheminInitial[-1], chemin_optimal)
-
-        # Liste des solutions des différents problèmes
-        fig_trajets.append(affichage(df_res, data))
+    for num_dataset in range(len(ENSEMBLE_TEST)):
+        df_res, data = test_unitaire_2_opt(num_dataset)
         df_resultat_test = pd.concat(
             [df_resultat_test, df_res], ignore_index=True)
 
-    # Figure de représentation du temps de calcul pour cet algorithme
-    fig_temps_calcul = representation_temps_calcul(df_resultat_test)
+    return df_resultat_test
 
-    return (df_resultat_test, fig_trajets, fig_temps_calcul)
+
+def test_unitaire_2_opt(num_dataset):
+    """Lancement d'un test de l'algorithme 2-opt
+
+    Returns
+    -------
+    Dataframe
+        variable stockant un ensemble de variables importantes pour analyser
+        l'algorithme
+    """
+    # Initialisation du data frame avec TSPLIB
+    data = data_TSPLIB(f'data/{ENSEMBLE_TEST[num_dataset]}.txt')
+
+    # Initialisation de la matrice des distances relatives
+    mat_distance = matrice_distance(data)
+
+    # Initialisation du chemin optimal
+    chemin_optimal = tour_optimal(
+        f'data/{ENSEMBLE_TEST[num_dataset]}_opt_tour.txt')
+
+    # On prend un chemin initial meilleur qu'un chemin aléatoire
+    # Attention cheminInitial est la liste des chemin exploré par l'algorithme
+    # plus_proche_voisin
+    cheminInitial, temps_calcul = src.plusProcheVoisin.plus_proche_voisin(
+        data, mat_distance)
+
+    # Lancement de l'algorithme 2-opt
+    df_res = src.algo2Opt.main(mat_distance, cheminInitial[-1], chemin_optimal)
+    return (df_res, data)
 
 
 def test_global_plus_proche_voisin():
@@ -84,26 +89,37 @@ def test_global_plus_proche_voisin():
         'Temps de calcul (en s)': []
     })
 
-    for i in ENSEMBLE_TEST:
-        # Initialisation du data frame avec TSPLIB
-        data = data_TSPLIB(f'data/{i}.txt')
-
-        # Initialisation de la matrice des distances relatives
-        mat_distance = matrice_distance(data)
-
-        # Initialisation du chemin optimal
-        chemin_optimal = tour_optimal(f'data/{i}_opt_tour.txt')
-
-        # Lancement de l'algorithme plus proche voisin
-        df_res = src.plusProcheVoisin.main(data, mat_distance, chemin_optimal)
-
-        # Affichage des résultats obtenu sur un jeu de donnée
-        affichage(df_res, data)
+    for num_dataset in range(len(ENSEMBLE_TEST)):
+        df_res, data = test_unitaire_plus_proche_voisin(num_dataset)
         df_resultat_test = pd.concat(
             [df_resultat_test, df_res], ignore_index=True)
-    representation_temps_calcul(df_resultat_test)
 
     return (df_resultat_test)
+
+
+def test_unitaire_plus_proche_voisin(num_dataset):
+    """Lancement d'un test de l'algorithme du plus proche voisin
+
+    Returns
+    -------
+    Dataframe
+        variable stockant un ensemble de variables importantes pour analyser
+        l'algorithme
+    """
+    # Initialisation du data frame avec TSPLIB
+    data = data_TSPLIB(f'data/{ENSEMBLE_TEST[num_dataset]}.txt')
+
+    # Initialisation de la matrice des distances relatives
+    mat_distance = matrice_distance(data)
+
+    # Initialisation du chemin optimal
+    chemin_optimal = tour_optimal(
+        f'data/{ENSEMBLE_TEST[num_dataset]}_opt_tour.txt')
+
+    # Lancement de l'algorithme plus proche voisin
+    df_res = src.plusProcheVoisin.main(data, mat_distance, chemin_optimal)
+
+    return (df_res, data)
 
 
 def test_global_algo_genetique():
@@ -124,23 +140,34 @@ def test_global_algo_genetique():
         'Temps de calcul (en s)': []
     })
 
-    for i in ENSEMBLE_TEST:
-        # Initialisation du data frame avec TSPLIB
-        data = data_TSPLIB(f'data/{i}.txt')
-
-        # Initialisation de la matrice des distances relatives
-        mat_distance = matrice_distance(data)
-
-        # Initialisation du chemin optimal
-        chemin_optimal = tour_optimal(f'data/{i}_opt_tour.txt')
-
-        # Lancement de l'algorithme plus proche voisin
-        df_res = src.geneticAlgorithm.main(data, mat_distance, chemin_optimal)
-
-        # Affichage des résultats obtenu sur un jeu de donnée
-        affichage(df_res, data)
+    for num_dataset in range(len(ENSEMBLE_TEST)):
+        df_res, data = test_unitaire_algo_genetique(num_dataset)
         df_resultat_test = pd.concat(
             [df_resultat_test, df_res], ignore_index=True)
-    representation_temps_calcul(df_resultat_test)
 
     return (df_resultat_test)
+
+
+def test_unitaire_algo_genetique(num_dataset):
+    """Lancement d'un test de l'algorithme génétique
+
+    Returns
+    -------
+    Dataframe
+        variable stockant un ensemble de variables importantes pour analyser
+        l'algorithme
+    """
+    # Initialisation du data frame avec TSPLIB
+    data = data_TSPLIB(f'data/{ENSEMBLE_TEST[num_dataset]}.txt')
+
+    # Initialisation de la matrice des distances relatives
+    mat_distance = matrice_distance(data)
+
+    # Initialisation du chemin optimal
+    chemin_optimal = tour_optimal(
+        f'data/{ENSEMBLE_TEST[num_dataset]}_opt_tour.txt')
+
+    # Lancement de l'algorithme génétique
+    df_res = src.geneticAlgorithm.main(data, mat_distance, chemin_optimal)
+
+    return (df_res, data)
