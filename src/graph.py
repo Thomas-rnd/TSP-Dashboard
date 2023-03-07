@@ -55,8 +55,7 @@ def representation_itineraire_web(data):
     fig
         Graphique de visualisation plolty
     """
-    fig = px.line(data, x='x', y='y',
-                  title='Chemin parcouru par le marchand', markers=True)
+    fig = px.line(data, x='x', y='y', markers=True)
     return fig
 
 
@@ -75,7 +74,7 @@ def representation_temps_calcul(data):
         Graphique de visualisation plolty
     """
     fig = px.line(data, x='Nombre de villes',
-                  y='Temps de calcul (en s)', title='Représentation du temps de calcul en fonction du nombre de ville à explorer', markers=True)
+                  y='Temps de calcul (en s)', markers=True)
     return fig
 
 
