@@ -98,8 +98,7 @@ app.layout = html.Div(
                                 ),
                             ],
                         ),
-                        dcc.Loading(html.Div(
-                            id="div-graphs",
+                        dcc.Loading(
                             children=[
                                 html.Div(
                                     id="svm-graph-container",
@@ -122,7 +121,6 @@ app.layout = html.Div(
                                 ),
                             ]
                         )
-                        ),
                     ],
                 )
             ],
