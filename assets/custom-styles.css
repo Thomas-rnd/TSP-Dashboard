@@ -201,7 +201,6 @@
     #left-column {
         flex: 1 40%;
         margin: 0 3rem 0 0;
-        max-height: 83rem;
         overflow-x: hidden;
         overflow-y: auto;
     }
@@ -331,16 +330,9 @@
     }
 }
 
-@media (min-width: 1301px) {
-    #div-graphs {
-        height: 83rem;
-    }
-}
+@media (min-width: 1301px) {}
 
 @media (max-width: 1300px) {
-    #div-graphs {
-        height: 70rem;
-    }
 
     .gtitle {
         font-size: 1.25rem !important;
