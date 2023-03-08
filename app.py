@@ -72,78 +72,6 @@ app.layout = html.Div(
                                     children=[
                                         drc.NamedDropdown(
                                             name="Select Algorithme",
-                                            id="dropdown-select-algorithm",
-                                            options=[
-                                                {'label': '2-opt', 'value': 0},
-                                                {'label': 'Plus proche voisin',
-                                                 'value': 1},
-                                                {'label': 'Algorithme génétique',
-                                                    'value': 2}
-                                            ],
-                                            clearable=False,
-                                            searchable=False,
-                                            value=0,
-                                        ),
-                                        drc.NamedDropdown(
-                                            name="Select a dataset",
-                                            id="dropdown-select-dataset",
-                                            options=[
-                                                {'label': '22- ulysses', 'value': 0},
-                                                {'label': '48 - att',
-                                                 'value': 1},
-                                                {'label': '52 - berlin',
-                                                 'value': 2},
-                                                {'label': '70 - st',
-                                                 'value': 3},
-                                                {'label': '100 - kroC',
-                                                 'value': 4},
-                                                {'label': '150 - ch',
-                                                 'value': 5},
-                                                {'label': '202 - gr',
-                                                 'value': 6},
-                                                {'label': '225 - tsp', 'value': 7}
-                                            ],
-                                            clearable=False,
-                                            searchable=False,
-                                            value=0,
-                                        ),
-                                    ]
-                                ),
-                            ],
-                        ),
-                        dcc.Loading(html.Div(
-                            id="div-graphs",
-                            children=dcc.Graph(
-                                id="graph-tsp",
-                                figure=dict(
-                                    layout=dict(
-                                        plot_bgcolor="#282b38", paper_bgcolor="#282b38"
-                                    )
-                                ),
-                            ),
-                        )
-                        ),
-                    ],
-                )
-            ],
-        ),
-        html.Div(
-            id="body",
-            className="container scalable",
-            children=[
-                html.Div(
-                    id="app-container",
-                    className="row",
-                    children=[
-                        html.Div(
-                            className="three columns",
-                            id="left-column",
-                            children=[
-                                drc.Card(
-                                    id="first-card",
-                                    children=[
-                                        drc.NamedDropdown(
-                                            name="Select Algorithme",
                                             id="dropdown-select-algorithm-time",
                                             options=[
                                                 {'label': '2-opt', 'value': 0},
@@ -208,14 +136,14 @@ app.layout = html.Div(
                                         drc.NamedSlider(
                                             name="Sample Size",
                                             id="slider-dataset-sample-size",
-                                            min=100,
+                                            min=10,
                                             max=500,
-                                            step=100,
+                                            step=10,
                                             marks={
                                                 str(i): str(i)
-                                                for i in [100, 200, 300, 400, 500]
+                                                for i in range(0, 501, 100)
                                             },
-                                            value=300,
+                                            value=10,
                                         ),
                                     ]
                                 ),
@@ -240,68 +168,13 @@ app.layout = html.Div(
     ]
 )
 
-"""
-        html.Div(id="app-container",
-                 className="app-container",
-                 children=[
-                     html.Div(id="left-column",
-                              className="left-column",
-                              children=[
-                                  html.H3(
-                                      "Sélection d'un jeu de données aléatoire: "),
-                                  dcc.Slider(50, 500, 50,
-                                             value=50,
-                                             id='slider-city-number'
-                                             ),
-                              ],),
-                     html.Div(id="right-column",
-                              className="right-column",
-                              children=[
-                                  dcc.Graph(
-                                      id='graph-solution-test'),
-                                  dcc.Graph(
-                                      id='graph-temps-calcul-test'),
-                                  dcc.Graph(
-                                      id='graph-solution-random'),
-                              ]),
-                 ])
-    ])
-"""
-
-
-@ app.callback(
-    Output("div-graphs", "children"),
-    Input('dropdown-select-dataset', 'value'),
-    Input('dropdown-select-algorithm', 'value')
-)
-def update_data_test(num_dataset, algo):
-    if algo == 0:
-        df_unitaire, data = testTSP.test_unitaire_2_opt(int(num_dataset))
-    elif algo == 1:
-        df_unitaire, data = testTSP.test_unitaire_plus_proche_voisin(
-            int(num_dataset))
-    else:
-        df_unitaire, data = testTSP.test_unitaire_algo_genetique(
-            int(num_dataset))
-    solution_figure = affichage(df_unitaire, data)
-    return [
-        html.Div(
-            id="tsp-graph-container",
-            children=dcc.Loading(
-                className="graph-wrapper",
-                children=dcc.Graph(id="graph-tsp",
-                                   figure=solution_figure),
-                style={"display": "none"},
-            ),
-        ),]
-
 
 @ app.callback(
     Output("div-graphs-random", "children"),
     Input('slider-dataset-sample-size', 'value'),
     Input('dropdown-select-algorithm-random', 'value')
 )
-def update_data_test(taille_dataset, algo):
+def update_random_graph(taille_dataset, algo):
     # Initialisation du data frame avec TSPLIB
     data = init_random_df(taille_dataset)
 
@@ -343,7 +216,7 @@ def update_data_test(taille_dataset, algo):
     Output("div-graphs-bis", "children"),
     Input('dropdown-select-algorithm-time', 'value')
 )
-def update_data_test(algo):
+def update_time_graph(algo):
     if algo == 0:
         df_global = testTSP.test_global_2_opt()
     elif algo == 1:
