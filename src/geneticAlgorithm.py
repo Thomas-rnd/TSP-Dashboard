@@ -17,7 +17,7 @@ POURCENTAGE_SELECTION = 10/100
 POURCENTAGE_MUTATION = 25/100
 
 # Constante permettant d'arrêter la convergence de l'algorithme
-ERREUR_SUR_CHEMIN = 25
+NOMBRE_EPOCH = 200
 
 
 def init_population(nombre_de_trajet, data, matrice_distance):
@@ -268,7 +268,7 @@ def evaluation(trajet, matrice_distance):
     return maj_trajet
 
 
-def main(data, matrice_distance, chemin_optimal):
+def main(data, matrice_distance, chemin_optimal=[]):
     """Lancement de l'algorithme de recherche 
 
     Parameters
@@ -287,24 +287,30 @@ def main(data, matrice_distance, chemin_optimal):
         l'algorithme
     """
     # Distance chemin optimal
-    distance_chemin_optimal = distance_trajet(chemin_optimal, matrice_distance)
+    if chemin_optimal != []:
+        distance_chemin_optimal = distance_trajet(
+            chemin_optimal, matrice_distance)
 
     # Initialisation de n individus initiaux (Génèse)
     trajets_initiaux = init_population(NOMBRE_TRAJET, data, matrice_distance)
 
-    # Initialisation de l'erreur initiale à 100%
-    erreur = 100
+    # Initialisation du nombre d'epoch
+    epoch = 0
 
     # Evaluation du temps de calcul
     start = time.time()
     # On arrète l'algorithme quand une approximation du chemin optimal est atteinte
-    while erreur > ERREUR_SUR_CHEMIN:
+    while epoch <= NOMBRE_EPOCH:
+        epoch += 1
         # Tri
         trajets_ordonnes = individus_ordonnes(trajets_initiaux)
 
         # Erreur relative de ce chemin
-        erreur = 100*(trajets_ordonnes[0]['Distance'] -
-                      distance_chemin_optimal)/distance_chemin_optimal
+        if chemin_optimal != []:
+            erreur = 100*(trajets_ordonnes[0]['Distance'] -
+                          distance_chemin_optimal)/distance_chemin_optimal
+        else:
+            erreur = None
 
         # Sélection
         meilleurs_trajets = selection(trajets_ordonnes, POURCENTAGE_SELECTION)
