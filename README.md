@@ -34,7 +34,7 @@ source venv/bin/activate
 Clone the git repo, then install the requirements with pip
 ```
 git clone https://github.com/Thomas-rnd/dash_TSP
-cd dash-sample-apps/apps/dash-svm
+cd dash-sample-apps/apps/dash-tsp
 pip install -r requirements.txt
 ```
 
