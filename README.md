@@ -1,9 +1,9 @@
 
 # Travelling Salesman Problem (TSP) Solver
 
-This is an exploration app made using the Dash interactive Python framework developed by [Plotly](https://plot.ly/).
+This is an exploration app made using the Dash interactive Python framework developed by [Plotly](https://plot.ly/). The goal was to implement an easy way to test the capacity of an algorithm to resolve the TSP. The indicators used are : the computation time and its capacity to find a solution near the optimal of a predefine dataset. 
 
-Dash abstracts away all of the technologies and protocols required to build an interactive web-based application and is a simple and effective way to bind a user interface around your Python code. To learn more check out the [documentation](https://plot.ly/dash).
+I used Dash to abstract away all of the technologies and protocols required to build an interactive web-based application. It is a simple and effective way to bind a user interface around a Python code. To learn more check out the [documentation](https://plot.ly/dash).
 
 Try out the [demo app here]
 
@@ -12,7 +12,7 @@ Try out the [demo app here]
 
 ## Getting Started
 ### Using the demo
-This demo lets you test your algorithm to resolve the Travelling Salesman Problem (TSP). 
+This demo lets you test several algorithms to resolve the Travelling Salesman Problem (TSP). 
 
 It includes a few artificially generated datasets that you can modify by changing the sample size with the slider provided.
 
@@ -26,7 +26,7 @@ First create a virtual environment with conda or venv inside a temp folder, then
 virtualenv dash-tsp-venv
 
 # Windows
-dash-svm-venv\Scripts\activate
+dash-tsp-venv\Scripts\activate
 # Or Linux and Mac
 source venv/bin/activate
 ```
@@ -34,7 +34,7 @@ source venv/bin/activate
 Clone the git repo, then install the requirements with pip
 ```
 git clone https://github.com/Thomas-rnd/dash_TSP
-cd dash-sample-apps/apps/dash-tsp
+cd dash_TSP
 pip install -r requirements.txt
 ```
 
