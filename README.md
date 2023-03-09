@@ -23,10 +23,11 @@ The other dropdown let you change the algorithm used to resolve the problem.
 First create a virtual environment with conda or venv inside a temp folder, then activate it.
 
 ```
-virtualenv dash-tsp-venv
+cd temp
+python3 -m venv venv
 
 # Windows
-dash-tsp-venv\Scripts\activate
+venv\Scripts\activate
 # Or Linux and Mac
 source venv/bin/activate
 ```
