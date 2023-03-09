@@ -44,6 +44,12 @@ def test_global_2_opt():
 def test_unitaire_2_opt(num_dataset):
     """Lancement d'un test de l'algorithme 2-opt
 
+    Parameters
+    ----------
+        int
+    Numéro de dataset sur lequel est réalisé le test. Ce numéro est égale à son 
+    index dans ENSEMBLE_TEST
+
     Returns
     -------
     Dataframe
@@ -100,6 +106,12 @@ def test_global_plus_proche_voisin():
 def test_unitaire_plus_proche_voisin(num_dataset):
     """Lancement d'un test de l'algorithme du plus proche voisin
 
+    Parameters
+    ----------
+        int
+    Numéro de dataset sur lequel est réalisé le test. Ce numéro est égale à son 
+    index dans ENSEMBLE_TEST
+
     Returns
     -------
     Dataframe
@@ -150,6 +162,12 @@ def test_global_algo_genetique():
 
 def test_unitaire_algo_genetique(num_dataset):
     """Lancement d'un test de l'algorithme génétique
+
+    Parameters
+    ----------
+        int
+    Numéro de dataset sur lequel est réalisé le test. Ce numéro est égale à son 
+    index dans ENSEMBLE_TEST
 
     Returns
     -------
