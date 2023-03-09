@@ -299,7 +299,8 @@ def main(data, matrice_distance, chemin_optimal=[]):
 
     # Evaluation du temps de calcul
     start = time.time()
-    # On arrète l'algorithme quand une approximation du chemin optimal est atteinte
+    # On arrete l'algorithme après un nombre d'epoch fixé. Pour permettre de visualiser
+    # un résultat même si l'algorithme ne converge pas (ou pas assez vite).
     while epoch <= NOMBRE_EPOCH:
         epoch += 1
         # Tri
