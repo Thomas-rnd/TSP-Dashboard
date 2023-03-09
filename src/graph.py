@@ -55,12 +55,13 @@ def representation_itineraire_web(data):
     fig
         Graphique de visualisation plolty
     """
-    fig = px.line(data, x='x', y='y', markers=True)
+    fig = px.line(data, x='x', y='y', markers=True,
+                  title="Graphique représentant le chemin emprunté par le marchand")
     return fig
 
 
 def representation_temps_calcul(data):
-    """Affichage des du temps de calcul d'un algorithme en fonction
+    """Affichage du temps de calcul d'un algorithme en fonction
     du nombre de ville qu'il a traité
 
     Parameters
@@ -74,7 +75,7 @@ def representation_temps_calcul(data):
         Graphique de visualisation plolty
     """
     fig = px.line(data, x='Nombre de villes',
-                  y='Temps de calcul (en s)', markers=True)
+                  y='Temps de calcul (en s)', markers=True, title="Graphique des temps de calcul en fonction du nombre de villes évaluées")
     return fig
 
 
@@ -85,7 +86,7 @@ def affichage(df_resolution, data):
     ----------
     df_resolution : Dataframe
         variable stockant un ensemble de variables importantes pour analyser
-        l'algorithme
+        l'algorithme sur un dataset
     data : DataFrame
         Dataframe stockant l'intégralité des coordonnées des villes à parcourir
 
