@@ -1,6 +1,7 @@
 import numpy
 import pandas as pd
 
+# Librairie dont sont tirées les données de test utilisées.
 # http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/tsp/
 
 
@@ -11,19 +12,19 @@ def data_TSPLIB(fichier='data/ulysses22.txt'):
 
     Parameters
     ----------
-    fichier : string
+    fichier : string (optionnel)
         nom du fichier à traiter
 
     Returns
     -------
     DataFrame
-        L'ensemble de ville ainsi crée depuis le fichier.txt
+        L'ensemble des villes ainsi crées depuis le fichier.txt
     """
     # Ouverture et lecture du fichier ligne par ligne
     with open(fichier, 'r') as input:
         data = [line.replace('\n', '') for line in input.readlines()]
     # Les coordonnées sont séparées d'un espace
-    # Format des données : index_ville X Y
+    # Format de coord_villes : index_ville X Y
     coord_villes = [
         [float(i) for i in coord.split(' ')]
         for coord in data
@@ -32,8 +33,9 @@ def data_TSPLIB(fichier='data/ulysses22.txt'):
     X = [x[1] for x in coord_villes]
     Y = [y[2] for y in coord_villes]
     array = numpy.array([X, Y])
+    # Un dataframe d'une colonne par ville
     data = pd.DataFrame(array, index=['x', 'y'])
-    return (data)
+    return data
 
 
 def tour_optimal(fichier='data/ulysses22_opt_tour.txt'):
@@ -43,7 +45,7 @@ def tour_optimal(fichier='data/ulysses22_opt_tour.txt'):
 
     Parameters
     ----------
-    fichier : string
+    fichier : string (optionnel)
         nom du fichier à traiter
 
     Returns
@@ -62,7 +64,7 @@ def tour_optimal(fichier='data/ulysses22_opt_tour.txt'):
 
 
 def trajet_en_df(trajet, data):
-    """Convertion d'un trajet en un dataframe
+    """Convertion d'une liste de villes en un dataframe
 
     Parameters
     ----------
@@ -79,5 +81,6 @@ def trajet_en_df(trajet, data):
     # Récupération des coordonnées des villes pour pouvoir les afficher
     x = [data.iloc[0, i] for i in trajet]
     y = [data.iloc[1, i] for i in trajet]
+    # Un dataframe d'une ligne par ville
     data = pd.DataFrame({'x': x, 'y': y})
     return (data)

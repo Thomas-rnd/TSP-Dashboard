@@ -4,10 +4,11 @@ import numpy
 import pandas as pd
 
 
-# Initialisation de mon dataFrame. C'ést-à-dire un ensemble de N villes definies
-# par un couple de coordonnées (x,y). Les villes ont un index entre [0:N-1]
 def init_random_df(n):
     """Initialisation d'un dataframe de ville à traverser
+
+    Un ensemble de n villes definies par un couple de coordonnées (x,y). 
+    Les villes ont un index entre [0:N-1]
 
     Parameters
     ----------
@@ -32,5 +33,6 @@ def init_random_df(n):
             y.append(b)
     # Initialisation du dataframe
     array = numpy.array([x, y])
+    # Une colonne par ville
     data = pd.DataFrame(array, index=['x', 'y'])
     return (data)

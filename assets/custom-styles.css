@@ -1,3 +1,9 @@
+/*
+Fichier entièrement récupéré via un GitHub d'application openSource en Dash 
+
+https://github.com/plotly/dash-sample-apps/tree/main/apps/dash-svm/assets/custom-styles.css
+*/
+
 @import url('https://fonts.googleapis.com/css?family=Playfair+Display');
 
 #body {
@@ -303,7 +309,7 @@
         flex: 1 50%;
     }
 
-    #graph-line-roc-curve,
+    #graph-calculus-time,
     #graph-pie-confusion-matrix {
         height: 100%;
         width: 100%;
@@ -317,7 +323,7 @@
         align-items: stretch;
     }
 
-    #graph-sklearn-svm {
+    #graph-tsp {
         height: 100%;
     }
 
@@ -399,8 +405,8 @@
         width: 100%;
     }
 
-    #graph-sklearn-svm,
-    #graph-line-roc-curve,
+    #graph-tsp,
+    #graph-calculus-time,
     #graph-pie-confusion-matrix {
         height: 100%;
         width: 100%;
@@ -414,7 +420,7 @@
         max-width: 100%;
     }
 
-    #graph-line-roc-curve {
+    #graph-calculus-time {
         width: 95%;
         margin: 3rem 0 1rem 0;
     }
@@ -447,7 +453,7 @@
 
 /* Remove Undo
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-#graph-line-roc-curve .modebar,
+#graph-calculus-time .modebar,
 #graph-pie-confusion-matrix .modebar {
     display: none;
 }

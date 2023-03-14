@@ -3,7 +3,15 @@ from textwrap import dedent
 from dash import dcc, html
 
 
+"""
+Fichier entièrement récupéré via un GitHub d'application openSource en Dash 
+
+https://github.com/plotly/dash-sample-apps/blob/main/apps/dash-svm/utils/dash_reusable_components.py
+"""
+
 # Display utility functions
+
+
 def _merge(a, b):
     return dict(a, **b)
 

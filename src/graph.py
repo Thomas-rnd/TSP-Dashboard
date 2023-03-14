@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import plotly.express as px
 
-from src.testData import trajet_en_df
+from src.lecture_data import trajet_en_df
 
 
 def representation_itineraire_back(data, reseau_neurones=[]):
@@ -14,7 +14,7 @@ def representation_itineraire_back(data, reseau_neurones=[]):
     data : DataFrame
         Dataframe stockant l'intégralité des coordonnées des villes à parcourir
     reseau_neurones : list
-        list stockant un réseau de neurone de kohonen
+        list stockant un réseau de neurone
     """
     # Affichage des points
     plt.scatter(data.iloc[0, :], data.iloc[1, :], zorder=1)
@@ -48,7 +48,7 @@ def representation_itineraire_web(data):
     Parameters
     ----------
     data : DataFrame
-        Dataframe stockant l'intégralité des informations sur un algorithme
+        Dataframe stockant de manière ordonnée les coordonnées des villes à afficher
 
     Returns
     -------
@@ -67,7 +67,7 @@ def representation_temps_calcul(data):
     Parameters
     ----------
     data : DataFrame
-        Dataframe stockant l'intégralité des informations sur un algorithme
+        Dataframe stockant les données concernant le temps de calcul
 
     Returns
     -------
@@ -80,13 +80,12 @@ def representation_temps_calcul(data):
 
 
 def affichage(df_resolution, data):
-    """Affichage d'un trajet et des performances d'un algorithme
+    """Affichage du meilleur trajet trouvé
 
     Parameters
     ----------
     df_resolution : Dataframe
-        variable stockant un ensemble de variables importantes pour analyser
-        l'algorithme sur un dataset
+        variable stockant un ensemble de données concernant un test d'un algorithme
     data : DataFrame
         Dataframe stockant l'intégralité des coordonnées des villes à parcourir
 
@@ -99,12 +98,4 @@ def affichage(df_resolution, data):
         df_resolution.loc[0, 'Solution'], data)
     # representation_itineraire_back(df_meilleur_trajet)
     fig = representation_itineraire_web(df_meilleur_trajet)
-
-    # print("=============================================")
-    # print("Nombre de ville : ", df_resolution.loc[0, "Nombre de villes"])
-    # print("Pourcentage d'erreur : ", df_resolution.loc[0, "Erreur (en %)"])
-    # print("Temps de calcul (en s): ",
-    #      df_resolution.loc[0, "Temps de calcul (en s)"])
-    # print("=============================================")
-
     return fig

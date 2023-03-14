@@ -5,6 +5,11 @@ import pandas as pd
 
 from src.distance import distance_trajet
 
+"""
+En s'inspirant des cours dispensés par M. Jean-Marc Salotti en deuxième année
+à l'ENSC
+"""
+
 
 def plus_proche_voisin(data, matrice_distance):
     """Retourne le trajet trouvé en se déplacement de proche en proche.
@@ -54,7 +59,7 @@ def plus_proche_voisin(data, matrice_distance):
 
 
 def main(data, matrice_distance, chemin_optimal=[]):
-    """Lancement de l'algorithme de recherche 
+    """Lancement de l'algorithme de recherche sur 1 jeu de données
 
     Parameters
     ----------
@@ -63,13 +68,13 @@ def main(data, matrice_distance, chemin_optimal=[]):
     chemin_initial : list
         suite de villes donnant le chemin parcouru. Ce chemin initial influ énormément 
         sur la solution finale trouvée.
-    chemin_optimal : list
-        résulat optimal donné par la TSPLIB
+    chemin_optimal : list (optionnel)
+        résulat optimal donné par la librairie TSPLIB
 
     Returns
     -------
     Dataframe
-        variable stockant un ensemble de variables importantes pour analyser
+        variable stockant un ensemble de données importantes pour analyser
         l'algorithme
     """
 
