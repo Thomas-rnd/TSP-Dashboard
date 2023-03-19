@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 import numpy
 import pandas as pd
 
-from distance import distance_trajet, matrice_distance
-from affichage_resultats import affichage
-from init_test_data import data_TSPLIB, trajet_en_df
+from src.distance import distance_trajet, matrice_distance
+from src.affichage_resultats import affichage
+from src.init_test_data import data_TSPLIB, trajet_en_df
 
 # Taille de la population initiale
 NOMBRE_TRAJET = 1000

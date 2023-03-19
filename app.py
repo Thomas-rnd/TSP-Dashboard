@@ -8,11 +8,11 @@ from dash.dependencies import Input, Output, State
 import src.algo_2_opt
 import src.algo_genetique
 import src.algo_proche_voisin
-import src.test_TSPLIB
+import src.test_algo
 import utils.dash_reusable_components as drc
 from src.distance import matrice_distance
-from src.graph import affichage, representation_temps_calcul
-from src.random_data import init_random_df
+from src.affichage_resultats import affichage
+from src.init_random_data import init_random_df
 
 app = Dash(
     __name__,
@@ -110,22 +110,16 @@ app.layout = html.Div(
                                         style={"display": "none"},
                                     ),
                                 ),
-                                html.Div(
-                                    id="graphs-container",
-                                    children=[
-                                        dcc.Loading(
-                                            className="graph-wrapper",
-                                            children=dcc.Graph(
-                                                id="graph-calculus-time"),
-                                        ),
-                                    ],
-                                ),
                             ]
-                        )
+                        ),
                     ],
                 )
             ],
         ),
+        html.Img(src=app.get_asset_url(
+            "resultats/figures/fig_distances.svg")),
+        html.Img(src=app.get_asset_url(
+            "resultats/figures/fig_temps_calcul.svg"))
     ]
 )
 
@@ -136,7 +130,7 @@ app.layout = html.Div(
     Input('dropdown-select-algorithm', 'value')
 )
 def update_random_graph(taille_dataset, algo):
-    # Initialisation du data frame avec TSPLIB
+    # Initialisation du dataframe
     data = init_random_df(taille_dataset)
 
     # Initialisation de la matrice des distances relatives
@@ -147,14 +141,14 @@ def update_random_graph(taille_dataset, algo):
         # Attention cheminInitial est la liste des chemin exploré par l'algorithme
         # plus_proche_voisin
         chemin_initial, temps_calcul = src.algo_proche_voisin.plus_proche_voisin(
-            data, mat_distance)
+            mat_distance)
 
         # Lancement de l'algorithme 2-opt
         df_res = src.algo_2_opt.main(
-            mat_distance, chemin_initial[-1])
+            mat_distance, chemin_initial)
     elif algo == 1:
         # Lancement de l'algorithme plus proche voisin
-        df_res = src.algo_proche_voisin.main(data, mat_distance)
+        df_res = src.algo_proche_voisin.main(mat_distance)
     else:
         df_res = src.algo_genetique.main(data, mat_distance)
 
@@ -162,25 +156,6 @@ def update_random_graph(taille_dataset, algo):
     solution_figure = affichage(df_res, data)
 
     return solution_figure
-
-
-@ app.callback(
-    Output("graph-calculus-time", "figure"),
-    Input('dropdown-select-algorithm', 'value')
-)
-def update_temps_graph(algo):
-    # On récupère l'id de l'input ayant été modifié
-
-    if algo == 0:
-        df_global = src.test_TSPLIB.test_global_2_opt()
-    elif algo == 1:
-        df_global = src.test_TSPLIB.test_global_plus_proche_voisin()
-    else:
-        return px.line()
-    # Figure de représentation du temps de calcul pour un algorithme
-    figure_temps_calcul = representation_temps_calcul(df_global)
-
-    return figure_temps_calcul
 
 
 # Running the server

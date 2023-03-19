@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 
-from init_test_data import trajet_en_df
+from src.init_test_data import trajet_en_df
 
 
 def representation_itineraire_back(data, reseau_neurones=[]):
@@ -76,13 +76,13 @@ def representation_temps_calcul(fichier_csv):
         Graphique de visualisation plolty
     """
     data = pd.read_csv(fichier_csv)
-    data['ln(Temps de calcul (en s))']=np.log(data['Temps de calcul (en s)'])
-    #fig = px.scatter(data, x='Nombre de villes',
+    data['ln(Temps de calcul (en s))'] = np.log(data['Temps de calcul (en s)'])
+    # fig = px.scatter(data, x='Nombre de villes',
     #              y='ln(Temps de calcul (en s))', color='Algorithme',
     #              title='Représentation du temps de calcul en fonction du nombre de ville à explorer', trendline="ols")
     fig = px.line(data, x='Nombre de villes',
                   y='ln(Temps de calcul (en s))', color='Algorithme',
-                  title='Représentation du temps de calcul en fonction du nombre de ville à explorer',markers=True)
+                  title='Représentation du temps de calcul en fonction du nombre de ville à explorer', markers=True)
     fig.write_image("../resultats/figures/fig_temps_calcul.svg")
     return fig
 
@@ -102,14 +102,14 @@ def representation_resultats(fichier_csv):
         Graphique de visualisation plolty
     """
     data = pd.read_csv(fichier_csv)
-    fig = px.box(data, x="Algorithme", y="Distance",color="Algorithme",
-             title="Distance du chemin trouvé en fonction de l'algorithme"
-            )
+    fig = px.box(data, x="Algorithme", y="Distance", color="Algorithme",
+                 title="Distance du chemin trouvé en fonction de l'algorithme"
+                 )
     fig.write_image("../resultats/figures/fig_distances.svg")
     return fig
 
 
-def affichage(df_resolution, data, nom_fichier):
+def affichage(df_resolution, data, nom_fichier=""):
     """Affichage d'un trajet et des performances d'un algorithme
     Parameters
     ----------
@@ -127,7 +127,8 @@ def affichage(df_resolution, data, nom_fichier):
         df_resolution['Solution'][0], data)
     # fig = representation_itineraire(df_meilleur_trajet)
     fig = representation_itineraire_web(df_meilleur_trajet)
-    fig.write_image(f"../resultats/figures/{nom_fichier}.svg")
+    if (nom_fichier != ""):
+        fig.write_image(f"../resultats/figures/{nom_fichier}.svg")
 
     print("=============================================")
     print("Nombre de ville : ", df_resolution["Nombre de villes"][0])

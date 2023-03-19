@@ -3,9 +3,9 @@ import time
 import numpy as np
 import pandas as pd
 
-from distance import distance_trajet
-from affichage_resultats import affichage
-from init_test_data import data_TSPLIB, trajet_en_df
+from src.distance import distance_trajet
+from src.affichage_resultats import affichage
+from src.init_test_data import data_TSPLIB, trajet_en_df
 
 
 def plus_proche_voisin(matrice_distance):
