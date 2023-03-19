@@ -1,17 +1,18 @@
 import pandas as pd
 
-import src.algo_2_opt
-import src.algo_genetique
-import src.algo_proche_voisin
-from src.distance import matrice_distance
-from src.lecture_data import data_TSPLIB, tour_optimal
+import algo_2_opt
+import algo_genetique
+import algo_proche_voisin
+from distance import matrice_distance
+from init_test_data import data_TSPLIB
+from affichage_resultats import affichage
 
 # Nom des data de test
-ENSEMBLE_TEST = ['ulysses22', 'att48', 'berlin52',
-                 'st70', 'kroC100', 'ch150', 'gr202', 'tsp225']
+ENSEMBLE_TEST = ['dj38', 'xqf131', 'qa194', 'xqg237',
+                 'pma343', 'pka379', 'pbl395', 'pbk411', 'pbn423']
 
 
-def test_global_2_opt():
+def test_global_2_opt() -> pd.DataFrame:
     """Lancement des tests de l'algorithme 2-opt
 
     Returns
@@ -22,22 +23,23 @@ def test_global_2_opt():
     """
     # Dataframe à retourner, une ligne représente un test de l'algorithme
     df_resultat_test = pd.DataFrame({
+        'Algorithme': [],
         'Nombre de villes': [],
         'Solution': [],
         # Erreur par rapport à la solution optimal de la TSPLIB
-        'Erreur (en %)': [],
+        'Distance': [],
         'Temps de calcul (en s)': []
     })
     # Test sur l'ensemble des data
     for num_dataset in range(len(ENSEMBLE_TEST)):
-        df_res, data = test_unitaire_2_opt(num_dataset)
+        df_res = test_unitaire_2_opt(num_dataset)
         df_resultat_test = pd.concat(
             [df_resultat_test, df_res], ignore_index=True)
 
     return df_resultat_test
 
 
-def test_unitaire_2_opt(num_dataset):
+def test_unitaire_2_opt(num_dataset: int) -> pd.DataFrame:
     """Lancement d'un test de l'algorithme 2-opt
 
     Parameters
@@ -53,28 +55,24 @@ def test_unitaire_2_opt(num_dataset):
         l'algorithme
     """
     # Initialisation du dataframe avec TSPLIB
-    data = data_TSPLIB(f'data/{ENSEMBLE_TEST[num_dataset]}.txt')
+    data = data_TSPLIB(f'../data/{ENSEMBLE_TEST[num_dataset]}.tsp')
 
     # Initialisation de la matrice des distances relatives
     mat_distance = matrice_distance(data)
 
-    # Initialisation du chemin optimal
-    chemin_optimal = tour_optimal(
-        f'data/{ENSEMBLE_TEST[num_dataset]}_opt_tour.txt')
-
     # On prend un chemin initial meilleur qu'un chemin aléatoire
     # Attention chemin_initial est la liste des chemins explorés par l'algorithme
     # plus_proche_voisin
-    chemin_initial, temps_calcul = src.algo_proche_voisin.plus_proche_voisin(
-        data, mat_distance)
+    chemin_initial, temps_calcul = algo_proche_voisin.plus_proche_voisin(
+        mat_distance)
 
     # Lancement de l'algorithme 2-opt
-    df_res = src.algo_2_opt.main(
-        mat_distance, chemin_initial[-1], chemin_optimal)
-    return df_res, data
+    df_res = algo_2_opt.main(mat_distance, chemin_initial)
+    affichage(df_res, data, f'2-opt/chemin_{ENSEMBLE_TEST[num_dataset]}')
+    return df_res
 
 
-def test_global_plus_proche_voisin():
+def test_global_plus_proche_voisin() -> pd.DataFrame:
     """Lancement des tests de l'algorithme plus proche voisin
 
     Returns
@@ -85,22 +83,23 @@ def test_global_plus_proche_voisin():
     """
     # Dataframe à retourner, une ligne représente un test de l'algorithme
     df_resultat_test = pd.DataFrame({
+        'Algorithme': [],
         'Nombre de villes': [],
         'Solution': [],
         # Erreur par rapport à la solution optimal de la TSPLIB
-        'Erreur (en %)': [],
+        'Distance': [],
         'Temps de calcul (en s)': []
     })
 
     for num_dataset in range(len(ENSEMBLE_TEST)):
-        df_res, data = test_unitaire_plus_proche_voisin(num_dataset)
+        df_res = test_unitaire_plus_proche_voisin(num_dataset)
         df_resultat_test = pd.concat(
             [df_resultat_test, df_res], ignore_index=True)
 
     return df_resultat_test
 
 
-def test_unitaire_plus_proche_voisin(num_dataset):
+def test_unitaire_plus_proche_voisin(num_dataset: int) -> pd.DataFrame:
     """Lancement d'un test de l'algorithme du plus proche voisin
 
     Parameters
@@ -116,22 +115,19 @@ def test_unitaire_plus_proche_voisin(num_dataset):
         l'algorithme
     """
     # Initialisation du data frame avec TSPLIB
-    data = data_TSPLIB(f'data/{ENSEMBLE_TEST[num_dataset]}.txt')
+    data = data_TSPLIB(f'../data/{ENSEMBLE_TEST[num_dataset]}.tsp')
 
     # Initialisation de la matrice des distances relatives
     mat_distance = matrice_distance(data)
 
-    # Initialisation du chemin optimal
-    chemin_optimal = tour_optimal(
-        f'data/{ENSEMBLE_TEST[num_dataset]}_opt_tour.txt')
-
     # Lancement de l'algorithme plus proche voisin
-    df_res = src.algo_proche_voisin.main(data, mat_distance, chemin_optimal)
+    df_res = algo_proche_voisin.main(mat_distance)
+    affichage(df_res, data,
+              f'proche_voisin/chemin_{ENSEMBLE_TEST[num_dataset]}')
+    return df_res
 
-    return (df_res, data)
 
-
-def test_global_algo_genetique():
+def test_global_algo_genetique() -> pd.DataFrame:
     """Lancement des tests de l'algorithme génétique
 
     Returns
@@ -142,15 +138,16 @@ def test_global_algo_genetique():
     """
     # Dataframe à retourner, une ligne représente un test de l'algorithme
     df_resultat_test = pd.DataFrame({
+        'Algorithme': [],
         'Nombre de villes': [],
         'Solution': [],
         # Erreur par rapport à la solution optimal de la TSPLIB
-        'Erreur (en %)': [],
+        'Distance': [],
         'Temps de calcul (en s)': []
     })
 
     for num_dataset in range(len(ENSEMBLE_TEST)):
-        df_res, data = test_unitaire_algo_genetique(num_dataset)
+        df_res = test_unitaire_algo_genetique(num_dataset)
         df_resultat_test = pd.concat(
             [df_resultat_test, df_res], ignore_index=True)
 
@@ -173,16 +170,12 @@ def test_unitaire_algo_genetique(num_dataset):
         l'algorithme
     """
     # Initialisation du data frame avec TSPLIB
-    data = data_TSPLIB(f'data/{ENSEMBLE_TEST[num_dataset]}.txt')
+    data = data_TSPLIB(f'../data/{ENSEMBLE_TEST[num_dataset]}.tsp')
 
     # Initialisation de la matrice des distances relatives
     mat_distance = matrice_distance(data)
 
-    # Initialisation du chemin optimal
-    chemin_optimal = tour_optimal(
-        f'data/{ENSEMBLE_TEST[num_dataset]}_opt_tour.txt')
-
     # Lancement de l'algorithme génétique
-    df_res = src.algo_genetique.main(data, mat_distance, chemin_optimal)
-
-    return (df_res, data)
+    df_res = algo_genetique.main(data, mat_distance)
+    affichage(df_res, data, f'genetique/chemin_{ENSEMBLE_TEST[num_dataset]}')
+    return df_res
