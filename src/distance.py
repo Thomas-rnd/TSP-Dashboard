@@ -1,84 +1,85 @@
 import numpy as np
+import pandas as pd
+from scipy.spatial import distance
 
 
-def distance_euclidienne(x1, y1, x2, y2):
-    """Evaluation de la distance euclidienne entre 2 points en 2D
+def distance_euclidienne(a: np.float_, b: np.float_) -> np.float_:
+    """
+    Retourne un np.array des distances entre 2 np.array de points.
 
     Parameters
     ----------
-    x1 : int
-        coordonné x du point 1
-    x2 : int
-        coordonné x du point 2
-    y1 : int
-        coordonné y du point 1
-    y2 : int
-        coordonné y du point 2
+    a : np.float_
+        vecteur de point 2D
+    b : np.float_
+        vecteur de point 2D
 
     Returns
-    ----------
-    int
-        la distance calculée
+    -------
+    np.float_
+        vecteur des distances
     """
-    distance = np.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
-    return distance
+    return np.linalg.norm(a - b, axis=1)
 
 
-def matrice_distance(data):
-    """Matrice des distances inter villes. C'est une matrice 2D qui renseigne
-    sur la distance entre la ville X et la ville Y à la position (X,Y) de la 
-    matrice
+def matrice_distance(villes: pd.DataFrame) -> np.array:
+    """
+    Retourne une matrice stockant les distances inter villes. Cette matrice renseigne
+    sur la distance entre la ville X et la ville Y à la position (X,Y).
 
     Parameters
     ----------
-    data : DataFrame
+    villes : DataFrame
         Dataframe stockant l'intégralité des coordonnées des villes à parcourir
 
     Returns
     -------
-    list
-        la matrice ainsi calculée
+    Dataframe
+        matrice stockant l'integralité des distances inter villes
     """
-    # Initialisation de la matrice
-    distance = [[]]
-    for i in range(data.shape[0]):
-        for j in range(data.shape[0]):
-            if (i == j):
-                # En diagonale on a uniquement des 0. Pas de déplacement si on reste
-                # sur la même ville
-                distance[i].append(np.Inf)
-            else:
-                # Autrement calcul de la distance
-                x1 = data.iloc[i, 1]
-                y1 = data.iloc[i, 2]
-                x2 = data.iloc[j, 1]
-                y2 = data.iloc[j, 2]
-                distance[i].append(distance_euclidienne(x1, y1, x2, y2))
-        # Pour éviter d'ajouter une ligne inutilisée
-        if (i != data.shape[0]-1):
-            # Une fois que tous les couples de distance sont initialisés pour une ville
-            # on ajoute une ville pour faire de même avec la ville suivante
-            distance.append([])
-    return np.array(distance)
+    dist_matrice = distance.cdist(
+        villes[['x', 'y']], villes[['x', 'y']], 'euclidean')
+
+    # On remplace les zéros des diagonales
+    dist_matrice = np.where(dist_matrice == 0, np.Inf, dist_matrice)
+    return dist_matrice
 
 
-def distance_trajet(itineraire, matrice_distance):
-    """Evaluation des trajets en fonction de leur distance totale
+def distance_trajet(itineraire: list, matrice_distance: np.array) -> float:
+    """Calcul de la distance totale d'un trajet
 
     Parameters
     ----------
     itineraire : list
         Liste ordonnées des villes parcourues
-    matrice_distance : list
+    matrice_distance : np.array
         matrice stockant l'integralité des distances inter villes
 
     Returns
     -------
-    int
+    float
         la distance de l'itinéraire considéré
     """
     distance = 0
-    for i in range(len(itineraire)-1):
-        # distance entre la ville itineraire[i] et itineraire[i+1]
-        distance += matrice_distance[itineraire[i], itineraire[i+1]]
+    for index, ville in enumerate(itineraire[:-1]):
+        # distance entre la ville itineraire[index] et itineraire[index+1]
+        distance += matrice_distance[ville, itineraire[index+1]]
     return distance
+
+
+def neurone_gagnant(neurones, ville):
+    """On cherche le neurone le plus proche d'une ville donnée
+
+    Parameters
+    ----------
+    neurones : np.array
+        liste du réseau de neuronnes
+    ville : np.array
+        coordonnées 2D d'une ville donnée
+
+    Returns
+    -------
+    int
+        l'index du neurone gagnant
+    """
+    return distance_euclidienne(neurones, ville).argmin()

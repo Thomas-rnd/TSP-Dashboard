@@ -34,7 +34,7 @@ def data_TSPLIB(fichier: str) -> pd.DataFrame:
                 noeud_coord_debut = i
             i = i+1
 
-        # Définit le point de référence au début du fichier
+        # On définit le point de référence au début du fichier
         f.seek(0)
 
         # Read a data frame out of the file descriptor
@@ -42,7 +42,7 @@ def data_TSPLIB(fichier: str) -> pd.DataFrame:
             f,
             # On commence la lecture du fichier au bon endroit
             skiprows=noeud_coord_debut + 1,
-            # Le séparateur
+            # Définition du séparateur
             sep=' ',
             # Définition des colonnes du dataframe
             names=['Ville', 'x', 'y'],
@@ -81,3 +81,18 @@ def trajet_en_df(trajet: list, data: pd.DataFrame) -> pd.DataFrame:
     # Un dataframe d'une ligne par ville
     df_res = pd.DataFrame({'Ville': index, 'x': x, 'y': y})
     return df_res
+
+
+def normalisation(villes):
+    """
+    Return the normalized version of a given vector of points.
+
+    For a given array of n-dimensions, normalize each dimension by removing the
+    initial offset and normalizing the points in a proportional interval: [0,1]
+    on y, maintining the original ratio on x.
+    """
+    ratio = (villes.x.max() - villes.x.min()) / \
+        (villes.y.max() - villes.y.min()), 1
+    ratio = np.array(ratio) / max(ratio)
+    norm = villes.apply(lambda c: (c - c.min()) / (c.max() - c.min()))
+    return norm.apply(lambda p: ratio * p, axis=1)
