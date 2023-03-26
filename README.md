@@ -34,11 +34,12 @@ git clone https://github.com/Thomas-rnd/dash_TSP
 cd dash_TSP
 ```
 
-Then create a virtual environment with conda then activate it.
+If you need to install conda follow the link to [Miniconda](https://docs.conda.io/en/latest/miniconda.html#latest-miniconda-installer-links), a free minimal installer for conda.
+
+Then create a virtual environment with conda then activate it
 
 ```
 conda create -n <env_name> python=3.9.13 --file requirements.txt
-
 conda activate <env_name>
 ```
 
