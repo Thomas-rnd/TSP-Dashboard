@@ -7,12 +7,13 @@ from dash.dependencies import Input, Output, State
 
 import src.algo_2_opt
 import src.algo_genetique
-import src.algo_proche_voisin
 import src.algo_kohonen
+import src.algo_proche_voisin
 import src.test_algo
 import utils.dash_reusable_components as drc
+from src.affichage_resultats import (affichage, representation_resultats,
+                                     representation_temps_calcul)
 from src.distance import matrice_distance
-from src.affichage_resultats import affichage, representation_temps_calcul, representation_resultats
 from src.init_random_data import init_random_df
 
 app = Dash(
