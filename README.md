@@ -27,27 +27,22 @@ The other dropdown let you change the algorithm used to resolve the problem.
 
 ### Running the app locally
 
-First create a virtual environment with conda or venv inside a temp folder, then activate it.
-
-```
-cd temp
-python3 -m venv venv
-
-# Windows
-venv\Scripts\activate
-# Or Linux and Mac
-source venv/bin/activate
-```
-
-Clone the git repo, then install the requirements with pip
+First, clone the git repository
 
 ```
 git clone https://github.com/Thomas-rnd/dash_TSP
 cd dash_TSP
-pip install -r requirements.txt
 ```
 
-Run the app
+Then create a virtual environment with conda then activate it.
+
+```
+conda create -n <env_name> python=3.9.13 --file requirements.txt
+
+conda activate <env_name>
+```
+
+Now you can run the app
 
 ```
 python app.py
