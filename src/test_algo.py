@@ -17,7 +17,7 @@ ENSEMBLE_ALGOS = ['2_opt', 'plus_proche_voisin', 'genetique', 'kohonen']
 
 
 def test_global(algo: str) -> pd.DataFrame:
-    """Lancement des tests de l'algorithme 2-opt
+    """Lancement de tous les tests unitaires pour un algorithme
 
     Parameters
     ----------
@@ -30,10 +30,8 @@ def test_global(algo: str) -> pd.DataFrame:
         variable stockant un ensemble de données importantes pour analyser
         l'algorithme. Un ligne représente un test sur un jeu de données
     """
-    if algo not in ENSEMBLE_ALGOS:
-        print(
-            "Veuillez choisir un algorithme parmi : {}".format(ENSEMBLE_ALGOS))
-        return -1
+    assert algo in ENSEMBLE_ALGOS, print(
+        "Veuillez choisir un algorithme parmi : {}".format(ENSEMBLE_ALGOS))
 
     # Dataframe à retourner, une ligne représente un test de l'algorithme
     df_resultat_test = pd.DataFrame({
@@ -44,6 +42,7 @@ def test_global(algo: str) -> pd.DataFrame:
         'Distance': [],
         'Temps de calcul (en s)': []
     })
+
     # Test sur l'ensemble des data
     for num_dataset in range(len(ENSEMBLE_TEST)):
         # Feeback d'avancement
@@ -57,13 +56,13 @@ def test_global(algo: str) -> pd.DataFrame:
         else:
             df_res = test_unitaire(num_dataset, algo)
         df_resultat_test = pd.concat(
-            [df_resultat_test, df_res], ignore_index=True)
+            [df_resultat_test, df_res], ignore_index=True)  # type: ignore
 
     return df_resultat_test
 
 
 def test_unitaire(num_dataset: int, algo: str) -> pd.DataFrame:
-    """Lancement d'un test de l'algorithme 2-opt
+    """Lancement d'un test unitaire pour un algorithme
 
     Parameters
     ----------
@@ -79,10 +78,8 @@ def test_unitaire(num_dataset: int, algo: str) -> pd.DataFrame:
         variable stockant un ensemble de données importantes pour analyser
         l'algorithme
     """
-    if algo not in ENSEMBLE_ALGOS:
-        print(
-            "Veuillez choisir un algorithme parmi : {}".format(ENSEMBLE_ALGOS))
-        return -1
+    assert algo in ENSEMBLE_ALGOS, print(
+        "Veuillez choisir un algorithme parmi : {}".format(ENSEMBLE_ALGOS))
 
     # Initialisation du dataframe avec TSPLIB
     data = data_TSPLIB(f'data/{ENSEMBLE_TEST[num_dataset]}.tsp')
