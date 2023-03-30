@@ -4,7 +4,7 @@ This is an exploration app made using the Dash interactive Python framework deve
 
 I used Dash to abstract away all of the technologies and protocols required to build an interactive web-based application. It is a simple and effective way to bind a user interface around a Python code. To learn more check out the [documentation](https://plot.ly/dash).
 
-Try out the [demo app here]
+## Quick look
 
 ![alt text](images/screenshot.png "Screenshot")
 
