@@ -39,7 +39,7 @@ If you need to install conda follow the link to [Miniconda](https://docs.conda.i
 Then create a virtual environment with conda then activate it
 
 ```
-conda create -n <env_name> python=3.9.13 --file requirements.txt
+conda create -n <env_name> --file requirements.txt
 conda activate <env_name>
 ```
 
