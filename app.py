@@ -1,6 +1,8 @@
 # Run this app with `python app.py` and
 # visit http://127.0.0.1:8050/ in your web browser.
 
+# Ce dashboard représente l'IHM de test du TSP-Solver accessible ici : https://github.com/Thomas-rnd/TSP_solver
+
 import plotly.express as px
 from dash import Dash, Input, Output, ctx, dcc, html
 from dash.dependencies import Input, Output, State
