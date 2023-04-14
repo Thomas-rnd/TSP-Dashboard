@@ -142,21 +142,21 @@ def update_random_graph(taille_dataset, choix_algo):
     mat_distance = matrice_distance(data)
 
     if choix_algo == 0:
-        chemin_initial, _, _ = src.algo_proche_voisin.plus_proche_voisin(
+        chemin_initial, _,= src.algo_proche_voisin.plus_proche_voisin(
             mat_distance)
 
         # Lancement de l'algorithme 2-opt
-        df_res, _ = src.algo_2_opt.main(
+        df_res= src.algo_2_opt.main(
             mat_distance, chemin_initial)
     elif choix_algo == 1:
         # Lancement de l'algorithme plus proche voisin
-        df_res, _ = src.algo_proche_voisin.main(mat_distance)
+        df_res= src.algo_proche_voisin.main(mat_distance)
     elif choix_algo == 2:
         # Lancement de l'algorithme génétique
         df_res = src.algo_genetique.main(data, mat_distance)
     else:
         # Lancement de l'algorithme de kohonen
-        df_res, _ = src.algo_kohonen.main(data, mat_distance)
+        df_res = src.algo_kohonen.main(data, mat_distance)
 
     # La solution trouvée par l'algo choisi
     solution_figure = affichage(df_res, data)

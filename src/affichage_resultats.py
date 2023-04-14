@@ -9,6 +9,7 @@ import plotly.graph_objects as go
 from src.init_test_data import data_TSPLIB, normalisation, trajet_en_df
 
 # Chemin de stockage des différents fichiers numériques
+# On retrouve dans ce dossier l'ensemble des figures crées
 ROOT = "resultats/figures/"
 
 
@@ -41,53 +42,11 @@ def representation_itineraire_web(data: pd.DataFrame, chemins: pd.DataFrame, nom
     )
     fig.update_xaxes(zeroline=False, visible=False)
     fig.update_yaxes(zeroline=False, visible=False)
-
-    # Sauvegarde de la figure au format .png
-    if (nom_fichier != ""):
-        fig.write_image(nom_fichier)
     return fig
-
-
-def representation_reseau(data: pd.DataFrame, neurones: np.ndarray, nom_fichier="") -> go.Figure:
-    """Affichage des N villes par des points ainsi que la projection du réseaux
-    de neurones sur l'espace des villes
-
-    Parameters
-    ----------
-    data : DataFrame
-        dataframe stockant l'intégralité des coordonnées des villes à parcourir (villes normalisées)
-    reseau_neurones : np.ndarray
-        vecteur stockant un réseau de neurone de kohonen
-
-    Returns
-    -------
-    Figure
-        Graphique de visualisation plolty
-    """
-    # Affichage des villes
-    fig = px.scatter(data, x='x', y='y', template="simple_white",
-                     title="Organisation of the Kohonen neurons network")
-
-    # On relie les neurones dans le bon ordre
-    fig.add_trace(
-        go.Scatter(
-            x=[neurone[0] for neurone in neurones],
-            y=[neurone[1] for neurone in neurones],
-            mode='lines+markers',
-            showlegend=False)
-    )
-    fig.update_xaxes(zeroline=False, visible=False)
-    fig.update_yaxes(zeroline=False, visible=False)
-
-    # Sauvegarde de la figure au format .png
-    if (nom_fichier != ""):
-        fig.write_image(nom_fichier)
-    return fig
-
 
 def representation_temps_calcul(fichier_csv: str) -> go.Figure:
     """Affichage du temps de calcul des différents algorithmes implémentés
-    en fonction du nombre de villes à parcourir
+    en fonction du nombre de villes à parcourir.
 
     Parameters
     ----------
@@ -101,9 +60,6 @@ def representation_temps_calcul(fichier_csv: str) -> go.Figure:
     """
     # Lecture du fichier stockant l'ensemble des résultats
     data = pd.read_csv(fichier_csv)
-    # fig = px.scatter(data, x='Nombre de villes',
-    #              y='ln(Temps de calcul (en s))', color='Algorithme',
-    #              title='Représentation du temps de calcul en fonction du nombre de ville à explorer', trendline="ols")
     fig = px.line(data, x='Nombre de villes',
                   y='Temps de calcul (en s)', color='Algorithme', template='plotly_white',
                   title='Representation of the calculation time according to the number of cities to explore', markers=True, log_y=True,
@@ -176,9 +132,11 @@ def affichage(df_resolution: pd.DataFrame, data: pd.DataFrame, nom_fichier="") -
     # Création d'un dataframe complet issu de la solution trouvée
     df_meilleur_trajet = trajet_en_df(
         df_resolution['Solution'][0], data)
+    # Création de la figure avec sauvegarde
     if nom_fichier != "":
         fig = representation_itineraire_web(
             data, df_meilleur_trajet, f"{ROOT+nom_fichier}.png")
+    # Création de la figure sans sauvegarde
     else:
         fig = representation_itineraire_web(
             data, df_meilleur_trajet)

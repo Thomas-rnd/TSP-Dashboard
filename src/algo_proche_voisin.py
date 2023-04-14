@@ -5,6 +5,12 @@ import pandas as pd
 
 from src.distance import distance_trajet
 
+# Implémentation de l'algorithme du 1-plus proche voisin adapté à la résolution
+# du TSP. C'est un algorithme simple afin d'obtenir très rapidement une solution
+# approximative et non aléatoire au problème.
+
+# Cf. : https://fr.wikipedia.org/wiki/Recherche_des_plus_proches_voisins
+
 
 def plus_proche_voisin(matrice_distance: np.ndarray) -> tuple[list[int], float, list[list[int]]]:
     """Retourne le trajet trouvé en se déplacement de proche en proche.
@@ -22,8 +28,6 @@ def plus_proche_voisin(matrice_distance: np.ndarray) -> tuple[list[int], float, 
         le chemin finalement trouvé
     temps_calcul : float
         temps necessaire à la résolution du problème
-    chemins_explores : list[list[int]]
-        stockage de l'ensemble des chemins explorés
     """
     start_time = time.time()
 
@@ -33,9 +37,6 @@ def plus_proche_voisin(matrice_distance: np.ndarray) -> tuple[list[int], float, 
     # Initialisation de l'itinéraire
     itineraire = [0]
     visite[0] = True
-
-    # Variable de stockage de l'ensemble des trajets explorés
-    chemins_explores = []
 
     while False in visite:
         # A chaque itération on cherche la ville la plus proche de la ville actuelle
@@ -56,15 +57,11 @@ def plus_proche_voisin(matrice_distance: np.ndarray) -> tuple[list[int], float, 
 
         itineraire.append(int(plus_proche))
 
-        # On sauvegarde l'état actuel de l'itinéraire en faisant attention au type
-        # référence des listes
-        chemins_explores.append(itineraire.copy())
-
-    # On tâche de fermer le cycle
+    # On pense à fermer le cycle
     itineraire.append(itineraire[0])
 
     temps_calcul = time.time() - start_time
-    return itineraire, temps_calcul, chemins_explores
+    return itineraire, temps_calcul
 
 
 def main(matrice_distance: np.ndarray, nom_dataset="") -> tuple[pd.DataFrame, list[list[int]]]:
@@ -82,11 +79,9 @@ def main(matrice_distance: np.ndarray, nom_dataset="") -> tuple[pd.DataFrame, li
     Dataframe
         variable stockant un ensemble de variables importantes pour analyser
         l'algorithme
-    chemins_explores : list[list[int]]
-        variable retraçant le parcour suivi par l'algorithme
     """
     # Résolution du TSP
-    itineraire, temps_calcul, chemins_explores = plus_proche_voisin(
+    itineraire, temps_calcul = plus_proche_voisin(
         matrice_distance)
 
     # Calcul de la distance du trajet final trouvé par l'algorithme
@@ -104,4 +99,4 @@ def main(matrice_distance: np.ndarray, nom_dataset="") -> tuple[pd.DataFrame, li
         'Temps de calcul (en s)': temps_calcul
     })
 
-    return df_resultat_test, chemins_explores
+    return df_resultat_test
