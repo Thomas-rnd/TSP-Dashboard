@@ -36,10 +36,16 @@ cd dash_TSP
 
 If you need to install conda follow the link to [Miniconda](https://docs.conda.io/en/latest/miniconda.html#latest-miniconda-installer-links), a free minimal installer for conda.
 
-Then create a virtual environment with conda then activate it
+Then create a virtual environment with conda then activate it. For more details go to [Managing environments](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#create-env-file-manually)
 
 ```
-conda create -n <env_name> --file requirements.txt
+conda create -n myenv -c conda-forge dash jupyter matplotlib-inline numpy pandas pillow plotly python-kaleido python scipy 
+```
+
+Or
+
+```
+conda env create -f environment.yml
 conda activate <env_name>
 ```
 
