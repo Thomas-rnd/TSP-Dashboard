@@ -1,15 +1,1 @@
-name: Thomas_Dash_TSP
-channels:
-  - conda-forge
-  - defaults
-dependencies:
-  - dash=2.7.0
-  - kaleido-core
-  - matplotlib-inline=0.1.6
-  - notebook=6.5.3
-  - numpy=1.23.5
-  - pandas=1.5.3
-  - pip=23.0.1
-  - plotly=5.9.0
-  - python=3.11.0
-  - scipy=1.10.0
+conda create -n myenv dash matplotlib-inline numpy pandas plotly python scipy
