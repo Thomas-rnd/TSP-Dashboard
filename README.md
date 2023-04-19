@@ -39,7 +39,8 @@ If you need to install conda follow the link to [Miniconda](https://docs.conda.i
 Then create a virtual environment with conda then activate it. For more details go to [Managing environments](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#create-env-file-manually)
 
 ```
-conda create -n <env_name> -c conda-forge dash jupyter matplotlib-inline numpy pandas pillow plotly python-kaleido python scipy 
+conda create -n <env_name> -c conda-forge dash matplotlib-inline numpy pandas plotly python scipy
+conda activate <env_name>
 ```
 
 Or
